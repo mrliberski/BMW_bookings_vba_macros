@@ -1,4 +1,6 @@
-Sub CMP()
+Sub CMP() 
+'Generates email to CMP team to confirm SAP system was prepared for routine massive MRP run
+'Because of standfard content it will not be displayed but will send out automatically (.send)
 
 Dim messages
 messages = "WARNING! " & vbCrLf & vbCrLf & _
@@ -39,7 +41,7 @@ If answer = vbYes Then
         newBody = newBody & "This is automated message: " & Now()
 
 'attempt to grab a default signature
- GetEmailSignature
+ GetEmailSignature()
 
     With NewMail
         .importance = 2
@@ -60,6 +62,8 @@ End If
 End Sub
 
 Sub SendAllPlans()
+' This email will be send out to all internal recipients. 
+' Macro will fetch all pdf files containing shipping plan tables, saved in previous steps
 
     Dim OlApp As Object
     Dim NewMail As Object
@@ -78,9 +82,9 @@ Sub SendAllPlans()
     
     Set OlApp = CreateObject("Outlook.Application")
     Set NewMail = OlApp.CreateItem(0)
-    With NewMail
-        .display
-    End With
+        With NewMail
+            .display
+        End With
     Signature = NewMail.htmlbody
 
     Dim newBody
@@ -89,38 +93,32 @@ Sub SendAllPlans()
         newBody = newBody & "<h4>" & Now() & "</h4>"
         'newBody = newBody & "Generated on " & Now()
 
-    If Dir(sPath) <> "" Then
-        StrSignature = GetSignature(sPath)
-    Else
-        StrSignature = ""
-    End If
+'attempt to grab a default signature
+ GetEmailSignature()
 
-'attachments
+'define where attachments are saved
     Dim FileName As Variant
         FileName = Dir(AccessPath & "\")
         Debug.Print "filename: " & FileName
 
-'On Error Resume Next
-
+'generate email and add all atachments available
     With NewMail
         .importance = 2
         .To = EmailToList
         .cc = EmailCCList
         .Subject = "Redditch Shipping Plans Update " & Date
-        
-        While FileName <> ""
-            Debug.Print "Attempting to add " & AccessPath & "\" & FileName
-            .Attachments.Add (AccessPath & "\" & FileName)
-            FileName = Dir
-        Wend
-        Debug.Print "Looks like files were added OK"
-        
+            While FileName <> ""
+                Debug.Print "Attempting to add " & AccessPath & "\" & FileName
+                .Attachments.Add (AccessPath & "\" & FileName)
+                FileName = Dir
+            Wend
+                Debug.Print "Looks like files were added OK"
         .htmlbody = newBody & "</BODY>" & vbNewLine & Signature
         .display
     End With
     
-    'On Error GoTo 0
+'clean up
     Set NewMail = Nothing
     Set OlApp = Nothing
-    Debug.Print "Mail was displayed"
+        Debug.Print "Mail was displayed"
 End Sub

@@ -11,17 +11,17 @@ answer = MsgBox(messages, vbCritical, vbYesNo, "Warning")
 
 If answer = vbYes Then
 
-CreateEmail()
+    CreateEmail()
 
-'Email body content
+    'Email body content
     Dim newBody
         newBody = " <html><head><style>body {color: #3d3d40;font-size:10pt;font-family:Calibri;}</style></head><body>"
         newBody = newBody + "<h4>RDD MRP&nbsp;</h4>"
         newBody = newBody & "Dear all, this is to confirm that MRP for Plant RDD has been ran and you are ok to schedule.<br> Thank you.<br> "
         newBody = newBody & "This is automated message: " & Now()
 
-'attempt to grab a default signature
- GetEmailSignature()
+    'attempt to grab a default signature
+    GetEmailSignature()
 
     With NewMail
         .importance = 2

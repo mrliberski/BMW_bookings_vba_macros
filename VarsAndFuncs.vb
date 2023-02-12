@@ -1,5 +1,5 @@
 'Variables will fetch data from 'ThisWorkbook' on startup
-Public AccessPath
+Public AccessPath As String
 Public EmailToList As String
 Public EmailCCList As String
 Public sPath As String

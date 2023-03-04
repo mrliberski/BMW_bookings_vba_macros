@@ -1,6 +1,6 @@
 Sub CMP() 
 'Generates email to CMP team to confirm SAP system was prepared for routine massive MRP run
-'Because of standfard content it will not be displayed but will send out automatically (.send)
+'Because of standard content it will not be displayed but will send out automatically (.send)
 
 Dim messages
 messages = "WARNING! " & vbCrLf & vbCrLf & _
@@ -30,7 +30,7 @@ If answer = vbYes Then
         .BCC = ""
         .Subject = "RDD MRP RUN Confirmation - " & Date
         .htmlbody = newBody & "</BODY>" & vbNewLine & Signature
-        .display
+        '.display
         .send
     End With
     
